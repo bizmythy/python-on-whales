@@ -459,6 +459,8 @@ class BuildxCLI(DockerCLICaller):
 
     def _method_to_get_image(self, builder: Optional[str]) -> GetImageMethod:
         """Getting around https://github.com/docker/buildx/issues/420"""
+        if self.docker_cmd == "podman":
+            return GetImageMethod.TAG
         builder = self.inspect(builder)
         if builder.driver == "docker":
             return GetImageMethod.IIDFILE
